@@ -31,7 +31,6 @@ def create_art_piece(request):
 
     return render(request, 'create_art_piece.html', {'form': form})
 
-
 def buy_now_art_pieces(request):
     art_pieces = ArtPiece.objects.exclude(buy_now_price=None)
     return render(request, 'buy_now.html', {'art_pieces': art_pieces})
@@ -71,9 +70,13 @@ def art_gallery(request):
     return render(request, 'art_gallery.html', {'art_pieces': art_pieces})
 
 def my_collection(request):
-    if request.user.is_authenticated:
-        user_collection = ArtPiece.objects.filter(collector=request.user)
-        return render(request, 'my_collection.html', {'collection': user_collection})
+    user = request.user
+    if user.is_authenticated:
+        user_art_pieces = ArtPiece.objects.filter(collector=user)
+        context = {
+            'user_art_pieces': user_art_pieces
+        }
+        return render(request, 'my_collection.html', context)
     else:
         return redirect('login')
 

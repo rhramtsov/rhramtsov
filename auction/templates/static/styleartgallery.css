@@ -1,13 +1,11 @@
-
 #backgroundPic {
-    background-position: -100%;
-  }
+    background-position: center;
+}
 
 .container {
     background-color: #5b4af4;
 }
 
-    
 .navbar-nav .nav-link {
     color: black;
     font-size: 17px;
@@ -53,15 +51,20 @@
     }
 }
 
-#backgroundPic {
-    background-position: -100%;
-  }
-  
 body {
-    background: scroll;
+    background-attachment: scroll;
     height: fit-content;
     width: fit-content;
-     
 }
 
-  
+.art-piece-image {
+    background-attachment: fixed;
+    background-color: #2D5CFE;
+    width: 200px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.card-body {
+    background-color: #dfcec0; /* light brown */
+}

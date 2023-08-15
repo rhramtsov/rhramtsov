@@ -3,9 +3,12 @@
   }
 
 .navbar {
-    background-color: #5b4af4;
-}
-
+    position: fixed;
+    top: 0;
+    transition: top 0.3s;
+    width: 100%;
+  }
+  
     
 .navbar-nav .nav-link {
     color: black;
@@ -57,21 +60,11 @@ body {
     background: scroll;
     height: fit-content;
     width: fit-content;
+    padding-top: 80px;
      
     }
 
    
-.art-piece-image {
-    background-attachment: fixed;
-    background-color: #2D5CFE;
-    width: 200px; 
-    height: 300px; 
-    object-fit: cover; 
-    }
-    
-.card-body {
-    background-color: #dfcec0; /* light brown */
-}
 
 footer {
     background: linear-gradient(780deg,  #c2d4e2, #2D5CFE);
