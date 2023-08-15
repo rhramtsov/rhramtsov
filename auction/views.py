@@ -114,7 +114,6 @@ def search(request):
 
 def contact(request):
     if request.method == 'POST':
-        form = ContactForm(request.POST)
         firstname = request.POST.get('firstname')
         lastname = request.POST.get('lastname')
         topic = request.POST.get('Topic')
@@ -129,12 +128,11 @@ def contact(request):
 
         # Send an email to the website admin or support team
         send_mail(
-            'Contact Form Submission from {}'.format(name),
-               message,
+            # 'Contact Form Submission from {}'.format(firstname),
             subject=f'Contact Form Submission: {topic}',
             message=f'Name: {firstname} {lastname}\nSubject: {subject}',
-            from_email='theonlineartgallery@gmail.com',
-            recipient_list=['theonlineartgallery@gmail.com'],
+            from_email='theonlineartgalleryhl@gmail.com',
+            recipient_list=['theonlineartgalleryhl@gmail.com'],
         )
 
         messages.success(request, "Thank you for contacting us!")

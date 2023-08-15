@@ -8,55 +8,52 @@
     <title1>The Art Gallery</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
-    <script defer src="static/navbar.js"></script> 
-    <link rel="stylesheet" href="static/styleartgallery.css">
-
-
+    <link rel="stylesheet" href="{% static 'styleartgallery.css' %}">
 </head>
 <body>
-      <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">Home</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'auctions' %}">Auction</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'art_gallery' %}">Art Gallery</a>
-                </li>
-                {% if user.is_authenticated %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'my_collection' %}">My Collection</a>
+                        <a class="nav-link" href="{% url 'auctions' %}">Auction</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        <a class="nav-link" href="{% url 'art_gallery' %}">Art Gallery</a>
                     </li>
-                {% else %}
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'my_collection' %}">My Collection</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Log In/Register</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Log In/Register</a>
+                        <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
                     </li>
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
-                </li>
-            </ul>
-            <form class="d-flex" action="{% url 'search' %}" method="get">
-                <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+                </ul>
+                <form class="d-flex" action="{% url 'search' %}" method="get">
+                    <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     {% if messages %}
-    <div class="container mt-3" style="padding-top: 80px;">
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
+        <div class="container mt-3" style="padding-top: 80px;">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -67,31 +64,48 @@
         <h1 class="text-center my-4">The Art Gallery</h1>
         <div class="row">
             {% for art_piece in art_pieces %}
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    {% if art_piece.artpiece_images.first %}
-                        <a href="{{ art_piece.artpiece_images.first.images.url }}" data-toggle="lightbox" data-title="{{ art_piece.name }}" data-footer="{{ art_piece.artist }}, {{ art_piece.year }}">
-                            <img src="{{ art_piece.artpiece_images.first.images.url }}" class="card-img-top art-piece-image" alt="{{ art_piece.name }}">
-                        </a>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ art_piece.name }}</h5>
-                        <p class="card-text">{{ art_piece.artist }}</p>
-                        <p class="card-text">{{ art_piece.size }}</p>
-                        <p class="card-text">{{ art_piece.year }}</p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Collector: {{ art_piece.collector }}</small>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div id="carouselExampleControls{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for image in art_piece.artpiece_images.all %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <img src="{{ image.images.url }}" class="d-block w-100 art-piece-image" alt="{{ art_piece.name }}">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls{{ forloop.counter }}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls{{ forloop.counter }}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ art_piece.name }}</h5>
+                            <p class="card-text">{{ art_piece.artist }}</p>
+                            <p class="card-text">{{ art_piece.size }}</p>
+                            <p class="card-text">{{ art_piece.year }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">Collector: {{ art_piece.collector }}</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
     <script>
         let lastScrollTop = 0;
         const navbar = document.querySelector('.navbar');
-        
         window.addEventListener('scroll', function() {
           let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
           if (scrollTop > lastScrollTop) {
@@ -102,10 +116,6 @@
           lastScrollTop = scrollTop;
         });
         </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
-    <script>
-        $(document).on('click',)
+</body>
+
+</html>
