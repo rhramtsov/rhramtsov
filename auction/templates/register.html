@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<script defer src="static/register.js"></script>
-<link rel="stylesheet" href="static/style.css">
+<script defer src="{% static 'js/register.js' %}"></script>
+<link rel="stylesheet" href="static/css/style.css">
 <body id= "backgroundPic" p style="background-image: url('/media/backpichome.jpg');">  
 </body>
 <<div class="container py-5">
@@ -57,6 +58,13 @@
                   <div class="form-group">
                       <div><label for="{{ form.address.id_for_label }}">Address:</label></div>
                       {{ form.address }}
+                      <style>.error-message {
+                        font-size: 20px;
+                        color: red;
+                        font-weight: bold;
+                        width: 300px;
+                        text-align: left;
+                    }</style>
                       <div class="error-message">{{ form.address.errors }}</div>
                   </div>
               </div>

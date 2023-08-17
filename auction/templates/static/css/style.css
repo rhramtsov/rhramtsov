@@ -1,0 +1,131 @@
+* {
+    box-sizing: border-box;
+  }
+/* Style the header */
+header {
+    background-color: #666;
+    padding: 30px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+  }
+
+
+
+  #backgroundPic {
+    background-position: center;
+  }
+  
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: top 0.3s; /* This line adds smooth transition */
+  }
+  
+  .navbar-nav .nav-link, .navbar-brand, .btn-outline-success {
+    color: black;
+    font-size: 17px;
+    padding: 14px 16px;
+  }
+  
+  .navbar-nav .nav-link:hover, .navbar-brand:hover, .btn-outline-success:hover {
+    background-color: #ddd;
+  }
+  
+  .navbar-nav .active {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+.form-control {
+    padding: 6px;
+    font-size: 17px;
+}
+
+@media screen and (max-width: 600px) {
+    .navbar-nav .nav-link,
+    .form-control {
+        padding: 14px;
+        text-align: left;
+        width: 100%;
+    }
+
+    .form-control {
+        border: 1px solid #ccc;
+    }
+}
+  
+body {
+    background-color: red;
+    background: scroll;
+    height: fit-content;
+    width: fit-content;
+    padding-top: 80px;
+     
+    }
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    text-align: center;
+}
+
+.form-group input {
+    display: block;
+    margin: 0 auto;
+}
+
+
+.error-message {
+    font-size: 20px;
+    color: red;
+    font-weight: bold;
+    width: 300px;
+    text-align: left;
+}
+
+section::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+
+
+.round {
+    border-radius: 50%;
+    border: none;
+    background-color: cornflowerblue;
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-20%);
+    padding: 0;
+    margin: 0;
+    width: auto;
+    height: auto;
+    box-shadow: none;
+    outline: none;
+    text-decoration: blueviolet;
+}
+
+.carousel-control-prev {
+    left: 0;
+
+}
+
+.carousel-control-next {
+    right: 0;
+ 
+
+}

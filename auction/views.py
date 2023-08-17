@@ -57,7 +57,7 @@ def update_art_piece(request, art_piece_id):
         form = ArtPieceForm(request.POST, instance=art_piece)
         if form.is_valid():
             form.save()
-            return redirect('art_pieces') # or whatever name you've given to the URL that lists art pieces
+            return redirect('art_pieces') 
     else:
         form = ArtPieceForm(instance=art_piece)
     return render(request, 'update_art_piece.html', {'form': form})
@@ -71,6 +71,7 @@ def your_view(request):
 
 def art_gallery(request):
     art_pieces = ArtPiece.objects.all()
+    art_pieces = ArtPiece.objects.all().order_by('is_sold')
     return render(request, 'art_gallery.html', {'art_pieces': art_pieces})
 
 def my_collection(request):

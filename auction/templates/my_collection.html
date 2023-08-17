@@ -1,6 +1,4 @@
-
-
-<!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
-    <link rel="stylesheet" href="static/style.css">
-    <script defer src="static/navbar.js"></script> 
+    <script defer src="{% static 'css/styleMycoll.css' %}"></script>
+    <script defer src="{% static 'js/navbar.js' %}"></script>
 </head>
 <body style="background-image: url('/media/backpichome.jpg');">
     
