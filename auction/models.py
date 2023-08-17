@@ -1,5 +1,4 @@
 from django.db import models
-from django.shortcuts import render
 from django.contrib.auth.models import AbstractUser
 from django.contrib import admin
 
@@ -12,6 +11,7 @@ class MyUser(AbstractUser):
         help_text='User address',
         max_length=100,
         null=False
+
     )
     is_collector = models.BooleanField(
         verbose_name='Is Collector',
@@ -53,7 +53,6 @@ class ArtPiece(models.Model):
     )
     
 
- 
     collector = models.ForeignKey(
         MyUser,
         verbose_name='Collector',

@@ -1,15 +1,16 @@
 import logging
-from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from auction.models import MyUser
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import ArtPiece, Auction
-from .forms import ArtPieceForm
-from django.contrib.auth import logout
+from .forms import ArtPieceForm, MyUserRegistrationForm
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.core.mail import send_mail
-
+from django.contrib.auth.forms import UserCreationForm
 
 
 def index(request):
@@ -61,9 +62,12 @@ def update_art_piece(request, art_piece_id):
         form = ArtPieceForm(instance=art_piece)
     return render(request, 'update_art_piece.html', {'form': form})
 
+
 def your_view(request):
     art_pieces = ArtPiece.objects.all()
-    return render(request, 'your_template.html', {'art_pieces': art_pieces})
+    users = MyUser.objects.all() 
+    context = {'art_pieces': art_pieces, 'users': users}
+    return render(request, 'your_template.html', context)
 
 def art_gallery(request):
     art_pieces = ArtPiece.objects.all()
@@ -103,6 +107,23 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
+
+def register_view(request):
+    if request.method == 'POST':
+        form = MyUserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.save()
+            messages.success(request, 'Registration successful. Please log in.')
+            return redirect('login')  # Replace with the URL of your login page
+        else:
+            messages.error(request, form.errors)
+    else:
+        form = MyUserRegistrationForm()
+
+    return render(request, 'register.html', {'form': form})
+
+
 def contact_us(request):
     return render(request, 'contact_us.html')
 
@@ -124,7 +145,6 @@ def contact(request):
             return redirect('contact_us')
 
         # Save the data to a database model - I will have one in project 3 :-)
-        # ContactForm.objects.create(firstname=firstname, lastname=lastname, topic=topic, subject=subject)
 
         # Send an email to the website admin or support team
         send_mail(

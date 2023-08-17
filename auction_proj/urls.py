@@ -3,6 +3,9 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from auction import views
+from auction.views import register_view
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -12,8 +15,9 @@ urlpatterns = [
     path('my_collection/', views.my_collection, name='my_collection'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('register/', views.register_view, name='register'),
     path('contact_us/', views.contact_us, name='contact_us'),
-     path('contact/', views.contact, name='contact'),
+    path('contact/', views.contact, name='contact'),
     path('art_piece/<int:art_piece_id>/update/', views.update_art_piece, name='update_art_piece'),
     path('search/', views.search, name='search'),
     

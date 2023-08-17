@@ -1,10 +1,17 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-<form method="post">
+<link rel="stylesheet" href="static/style.css">
+<body id= "backgroundPic" p style="background-image: url('/media/backpichome.jpg');">  
+  <p></p>
+  
+    <h2>Login</h2>
+  <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="hidden" name="next" value="{{ request.GET.next }}" />
-    <button type="submit">Log in</button>
-</form>
+    <button type="submit" class="btn btn-primary">Login</button>
+
+    <a href="{% url 'register' %}" class="btn btn-primary">Register now</a>
+  </form>
 {% endblock %}
