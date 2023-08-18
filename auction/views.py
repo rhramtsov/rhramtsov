@@ -3,14 +3,13 @@ from django.contrib.auth.models import User
 from auction.models import MyUser
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import ArtPiece, Auction
 from .forms import ArtPieceForm, MyUserRegistrationForm
-from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from django.core.mail import send_mail
 from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, get_object_or_404, redirect
 
 
 def index(request):
@@ -29,8 +28,30 @@ def create_art_piece(request):
             return redirect('art_pieces')
     else:
         form = ArtPieceForm()
-
     return render(request, 'create_art_piece.html', {'form': form})
+
+def buy_now(request, art_piece_id):
+    if request.user.is_authenticated:
+        art_piece = get_object_or_404(ArtPiece, pk=art_piece_id)
+        if art_piece.is_sold or art_piece.is_in_active_auction():
+            messages.error(request, "This art piece is already sold or in an active auction.")
+            return redirect('art_piece_detail', art_piece_id=art_piece.id)
+        if not art_piece.buy_now_price:
+            messages.error(request, "This art piece does not have a buy-now price.")
+            return redirect('art_piece_detail', art_piece_id=art_piece.id)
+        if request.user.is_collector:
+            art_piece.is_sold = True
+            art_piece.collector = request.user
+            art_piece.save()
+            messages.success(request, f"Congratulations! You are now the owner of {art_piece.name}. See My Collection page.")
+            return redirect('art_piece_detail', art_piece_id=art_piece.id)
+        else:
+            messages.error(request, "Only collectors can buy art pieces.")
+            return redirect('art_piece_detail', art_piece_id=art_piece.id)
+    else:
+        messages.error(request, "Please log in to buy this art piece.")
+        return redirect('login')
+
 
 def buy_now_art_pieces(request):
     art_pieces = ArtPiece.objects.exclude(buy_now_price=None)
@@ -50,7 +71,6 @@ def auction_art_pieces(request):
         art_pieces_data.append(art_piece_data)
     return render(request, 'auctions.html', {'art_pieces': art_pieces_data})
 
-
 def update_art_piece(request, art_piece_id):
     art_piece = get_object_or_404(ArtPiece, pk=art_piece_id)
     if request.method == "POST":
@@ -61,7 +81,6 @@ def update_art_piece(request, art_piece_id):
     else:
         form = ArtPieceForm(instance=art_piece)
     return render(request, 'update_art_piece.html', {'form': form})
-
 
 def your_view(request):
     art_pieces = ArtPiece.objects.all()
@@ -95,7 +114,6 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f'Welcome dear {user.first_name} Collector!')
-                # next_page = request.POST.get('next', '/')
                 return redirect('home')
         else:
             messages.error(request, 'Invalid username or password.')
@@ -103,11 +121,9 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
-
 def logout_view(request):
     logout(request)
     return redirect('home')
-
 
 def register_view(request):
     if request.method == 'POST':
@@ -116,18 +132,15 @@ def register_view(request):
             user = form.save()
             user.save()
             messages.success(request, 'Registration successful. Please log in.')
-            return redirect('login')  # Replace with the URL of your login page
+            return redirect('login')
         else:
             messages.error(request, form.errors)
     else:
         form = MyUserRegistrationForm()
-
     return render(request, 'register.html', {'form': form})
-
 
 def contact_us(request):
     return render(request, 'contact_us.html')
-
 
 def search(request):
     query = request.GET.get('q')
@@ -145,11 +158,7 @@ def contact(request):
             messages.error(request, "Please fill in all the fields.")
             return redirect('contact_us')
 
-        # Save the data to a database model - I will have one in project 3 :-)
-
-        # Send an email to the website admin or support team
         send_mail(
-            # 'Contact Form Submission from {}'.format(firstname),
             subject=f'Contact Form Submission: {topic}',
             message=f'Name: {firstname} {lastname}\nSubject: {subject}',
             from_email='theonlineartgalleryhl@gmail.com',

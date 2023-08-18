@@ -1,19 +1,17 @@
-{% load static %}
 
-<html>
-<head>
     <meta charset="utf-8">
-    <p></p>
-    <title1>The Art Gallery</title>
+    <title>The Art Gallery</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% load static %} 
     <link rel="stylesheet" href="{% static 'css/styleartgallery.css' %}">
-    <link rel="stylesheet" href="static/css/styleartgallery.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-    </head>
-    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script defer src="{% static 'js/buynow.js' %}"></script>
     <script defer src="{% static 'js/navbar.js' %}"></script>
 </head>
+    
 <body>
     
     <!-- Navbar -->
@@ -56,17 +54,17 @@
     </nav>
 
     {% if messages %}
-        <div class="container mt-3" style="padding-top: 80px;">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+    <div class="container mt-3" style="padding-top: 80px;">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 
-    {% load static %}
- 
+{% load static %}
+
     <div class="container">
         <h1 class="text-center my-4">The Art Gallery</h1>
        <div class="row">
@@ -110,30 +108,29 @@
                                         </video>
                                     </div>
                                     <style>
-                                        
-                                    .art-piece-image {
-                                        height: 100%;
-                                        width: 100%;
-                                        object-fit: cover;
-                                    }
-                                    .carousel-item {
-                                        height: 500px;
-                                        width: 400px;
-                                    }
-                                    .art-piece-container .card {
-                                        margin-bottom: 0;
-                                    }
-                                    .carousel-inner {
-                                        margin-bottom: 0;
-                                    }
-                                    .card-body {
-                                        padding-top: 0;
-                                    }
-                                    .mb-3 {
-                                        margin-bottom: 0 !important;
-                                    }
+                                        .art-piece-image {
+                                            height: 100%;
+                                            width: 100%;
+                                            object-fit: cover;
+                                        }
+                                        .carousel-item {
+                                            height: 500px;
+                                            width: 400px;
+                                        }
+                                        .art-piece-container .card {
+                                            margin-bottom: 0;
+                                        }
+                                        .carousel-inner {
+                                            margin-bottom: 0;
+                                        }
+                                        .card-body {
+                                            padding-top: 0;
+                                        }
+                                        .mb-3 {
+                                            margin-bottom: 0 !important;
+                                        }
                                     </style>
-                                {% endfor %}
+                                    {% endfor %}
                                 </div>
                                 <a href="#" class="carousel-control-prev round" data-bs-target="#carouselExampleControls{{ forloop.counter }}" data-bs-slide="prev" style="font-size: 3rem;">&#8249;</a>
                                 <a href="#" class="carousel-control-next round" data-bs-target="#carouselExampleControls{{ forloop.counter }}" data-bs-slide="next" style="font-size: 3rem;">&#8250;</a>
@@ -145,19 +142,57 @@
                                 <p class="card-text">{{ art_piece.year }}</p>
                                 {% if not art_piece.is_sold %}
                                 <div class="mb-3 d-flex justify-content-between">
-                                    <button class="btn btn-primary">Buy Now for ${{ art_piece.max_price }}</button>
+                                    <button class="buy-now-btn" data-art-id="{{ art_piece.id }}">
+                                        Buy Now for ₪{{ art_piece.buy_now_price }}</button>
                                     <button class="btn btn-secondary">Bid on Auction</button>
                                 </div>
                                 </div>
                                 {% endif %}
-
+                            </div>
                         </div>
-                  
-                    </div>
-                </aside>
-            </div>
+                    </aside>
+                </div>
             {% endfor %}
-           
+        </div>
+    </div>
+    <script>
+        let lastScrollTop = 0;
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                navbar.style.top = '-100px'; // Hide navbar by moving it
+            } else {
+                navbar.style.top = '0'; // Show navbar
+            }
+            lastScrollTop = scrollTop;
+        });
+    
+        // Buy Now button functionality
+        document.addEventListener("DOMContentLoaded", function() {
+            const buyNowButtons = document.querySelectorAll('.buy-now-btn');
+            buyNowButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const artId = this.getAttribute('data-art-id');
+                    const purchaseUrl = `/api/buy-art/${artId}`; // Replace with the actual API endpoint URL
+                    fetch(purchaseUrl, {
+                        method: 'POST',
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Purchase successful!');
+                        } else {
+                            alert('Error occurred while purchasing the art piece.');
+                        }
+                    })
+                    .catch(error => {
+                        alert('Error occurred while purchasing the art piece.');
+                    });
+                });
+            });
+        });
+    </script>
             
 
   {% load static %}

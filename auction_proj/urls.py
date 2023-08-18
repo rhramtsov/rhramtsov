@@ -7,6 +7,8 @@ from auction.views import register_view
 
 
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='home'),
@@ -19,9 +21,13 @@ urlpatterns = [
     path('contact_us/', views.contact_us, name='contact_us'),
     path('contact/', views.contact, name='contact'),
     path('art_piece/<int:art_piece_id>/update/', views.update_art_piece, name='update_art_piece'),
+    path('buy_now/<int:art_piece_id>/', views.buy_now, name='buy_now'),
     path('search/', views.search, name='search'),
     
 ]
+
+# if settings.DEBUG:
+#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

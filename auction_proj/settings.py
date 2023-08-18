@@ -15,7 +15,6 @@ from pathlib import Path
 import logging
 from decouple import Csv, config
 
-
 logging.basicConfig(level=logging.DEBUG)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "auction.settings")
 

@@ -11,7 +11,6 @@ class MyUser(AbstractUser):
         help_text='User address',
         max_length=100,
         null=False
-
     )
     is_collector = models.BooleanField(
         verbose_name='Is Collector',
@@ -51,7 +50,6 @@ class ArtPiece(models.Model):
         null=False,
         default=0
     )
-    
 
     collector = models.ForeignKey(
         MyUser,
@@ -82,17 +80,18 @@ class ArtPiece(models.Model):
         null=True,
         blank=True
     )
+    buy_now_price = models.DecimalField(
+        verbose_name='Buy Now Price',
+        help_text='The price of the art piece for immediate purchase.',
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return f"{self.name} - {self.id}"
 
-    def is_in_active_auction(self):
-        return self.auction_set.filter(is_active=True).exists()
-
-
-    def __str__(self):
-        return f"{self.name} - {self.id}"
-    
     def is_in_active_auction(self):
         return self.auction_set.filter(is_active=True).exists()
 
@@ -102,7 +101,6 @@ class ArtPieceImage(models.Model):
 
     def __str__(self):
         return self.images.name
-
 
 class ArtPieceVideo(models.Model):
     video = models.FileField(upload_to='art_videos/') 
@@ -123,7 +121,7 @@ class Auction(models.Model):
         verbose_name='Art Pieces',
         help_text='Art pieces included in this auction.'
     )
- 
+
     winning_collector = models.ForeignKey(
         MyUser,
         verbose_name='Winning Collector',
@@ -146,9 +144,9 @@ class Auction(models.Model):
         help_text='True if the auction is active, False otherwise.',
         default=False
     )
+
     def __str__(self):
         return self.name
-
 
 class Bid(models.Model):
     collector = models.ForeignKey(
