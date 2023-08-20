@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+  }
+
+  .header {
+    background-color: #666;
+    padding: 30px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+  }
+
+
+  #backgroundPic {
+    background-position: center;
+  }
+   
+.form-control {
+    padding: 6px;
+    font-size: 17px;
+} */
+
+@media screen and (max-width: 600px) {
+    .navbar-nav .nav-link,
+    .form-control {
+        padding: 14px;
+        text-align: left;
+        width: 100%;
+    }
+
+    .form-control {
+        border: 1px solid #ccc;
+    }
+}
+  
+body {
+    background-color: rgb(241, 244, 249);
+    background: scroll;
+    height: fit-content;
+    width: fit-content;
+    padding-top: 80px;
+     
+    }
+
+/* 
+section::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+ */
+

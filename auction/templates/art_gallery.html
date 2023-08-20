@@ -1,57 +1,58 @@
-
     <meta charset="utf-8">
-    <title>The Art Gallery</title>
+    <p></p>
+    <title1>The Art Gallery</title1>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {% load static %} 
     <link rel="stylesheet" href="{% static 'css/styleartgallery.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <script defer src="{% static 'js/buynow.js' %}"></script>
     <script defer src="{% static 'js/navbar.js' %}"></script>
 </head>
     
-<body>
-    
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">Home</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
+
+<body id= "backgroundPic" p style="background-image: url('/media/backpichome.jpg');">  
+
+         <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'auctions' %}">Auction</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'art_gallery' %}">Art Gallery</a>
+                </li>
+                {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'auctions' %}">Auction</a>
+                        <a class="nav-link" href="{% url 'my_collection' %}">My Collection</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'art_gallery' %}">Art Gallery</a>
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                     </li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'my_collection' %}">My Collection</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Log In/Register</a>
-                        </li>
-                    {% endif %}
+                {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
+                        <a class="nav-link" href="{% url 'login' %}">Log In/Register</a>
                     </li>
-                </ul>
-                <form class="d-flex" action="{% url 'search' %}" method="get">
-                    <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
+                </li>
+            </ul>
+            <form class="d-flex" action="{% url 'search' %}" method="get">
+                <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
         </div>
-    </nav>
+    </div>
+</nav>
+
 
     {% if messages %}
     <div class="container mt-3" style="padding-top: 80px;">
@@ -69,32 +70,13 @@
         <h1 class="text-center my-4">The Art Gallery</h1>
        <div class="row">
             {% for art_piece in art_pieces %}
-                <div class="col-md-6 mb-4 d-flex justify-content-center">
-                    <aside class="art-piece-container">
+            <div class="col-md-6 mb-4 d-flex justify-content-center">
+                <aside class="art-piece-container">
                         <div class="card" style="height: 60%; width: 80%;">
                             <div id="carouselExampleControls{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
                                     {% if art_piece.is_sold %}
                                     <div class="sold-tag">Sold</div>
-                                    <style>
-                                        .carousel-inner img {
-                                        height: 500px;
-                                        width: 600px;
-                                        }
-                                        .sold-tag {
-                                            position: absolute;
-                                            z-index: 1;
-                                            top: 15%;
-                                            left: 10%;
-                                            background-color: rgba(240, 47, 47, 0.7);
-                                            color: rgb(15, 14, 14);
-                                            padding: 5px 10px;
-                                            font-size: 16px;
-                                            font-weight: bold;
-                                            border-radius: 5px;
-                                            text-transform: uppercase;
-                                        }
-                                    </style>
                                     {% endif %}
                                     {% for image in art_piece.artpiece_images.all %}
                                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
@@ -108,27 +90,7 @@
                                         </video>
                                     </div>
                                     <style>
-                                        .art-piece-image {
-                                            height: 100%;
-                                            width: 100%;
-                                            object-fit: cover;
-                                        }
-                                        .carousel-item {
-                                            height: 500px;
-                                            width: 400px;
-                                        }
-                                        .art-piece-container .card {
-                                            margin-bottom: 0;
-                                        }
-                                        .carousel-inner {
-                                            margin-bottom: 0;
-                                        }
-                                        .card-body {
-                                            padding-top: 0;
-                                        }
-                                        .mb-3 {
-                                            margin-bottom: 0 !important;
-                                        }
+                                       
                                     </style>
                                     {% endfor %}
                                 </div>
@@ -156,17 +118,6 @@
         </div>
     </div>
     <script>
-        let lastScrollTop = 0;
-        const navbar = document.querySelector('.navbar');
-        window.addEventListener('scroll', function() {
-            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollTop > lastScrollTop) {
-                navbar.style.top = '-100px'; // Hide navbar by moving it
-            } else {
-                navbar.style.top = '0'; // Show navbar
-            }
-            lastScrollTop = scrollTop;
-        });
     
         // Buy Now button functionality
         document.addEventListener("DOMContentLoaded", function() {

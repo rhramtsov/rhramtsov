@@ -1,0 +1,118 @@
+#backgroundPic {
+  background-position: center;
+}
+
+
+
+/* .form-control {
+  padding: 6px;
+  font-size: 17px;
+  border: 1px solid #ccc;
+} */
+
+/* ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(233, 235, 240);
+} */
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color:rgb(233, 235, 240);
+  text-align: center;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 14px 16px;
+}
+
+/* li a:hover {
+  background-color: #bbbcc1;
+} */
+
+body {
+  background: scroll;
+  height: fit-content;
+  width: fit-content;
+}
+
+h1 {
+  scroll-behavior: auto;
+  color: rgb(0, 0, 0);
+}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: fa9rgb(233, 235, 240);
+  color: white;
+  padding: 8px 16px; /* Reduced padding */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px; /* Reduced font size */
+  cursor: pointer;
+}
+
+.button1 {
+  width: 20px;      /*  the button only as wide as its content */
+  padding: 8px 12px;   /* Adjusts the padding around the button text */
+  font-size: 14px;  /* Changes the font size of the button text */
+  border-radius: 4px;  /* Rounded corners for the button */
+}
+
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar-nav .nav-link, .form-control {
+    padding: 14px;
+    text-align: left;
+    width: 100%;
+  }
+
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  footer {
+    background: linear-gradient(780deg, #c2d4e2, #2D5CFE);
+    padding: 10px;
+    text-align: center;
+    color: white;
+  }
+}

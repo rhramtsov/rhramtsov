@@ -4,8 +4,9 @@
     {% load static %}
     {% block content %}
         <div class="container py-5">
-            <h1>{{ title }}</h1>
-            <h2>Upcoming Auctions</h2>
+            <h1>The online Art Gallery</h1>
+            <p></p>
+            <h2>Activ Auctions</h2>
             <ul class="list-group">
             {% for auction in auctions %}
                 <li class="list-group-item">{{ auction.name }} - Minimum Price: {{ auction.minimum_price }}</li>
