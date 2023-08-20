@@ -66,15 +66,15 @@
 
 {% load static %}
 
-    <div class="container">
-        <h1 class="text-center my-4">The Art Gallery</h1>
+<div class="container" style="margin-left: 100px;">
+    <h1 class="text-center my-4">The Art Gallery</h1>
        <div class="row">
             {% for art_piece in art_pieces %}
             <div class="col-md-6 mb-4 d-flex justify-content-center">
                 <aside class="art-piece-container">
-                        <div class="card" style="height: 60%; width: 80%;">
+                        <div class="card" style="height: 100%; width: 100%;">
                             <div id="carouselExampleControls{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-inner">
+                                <div class="carousel-inner" style="object-fit: contain;">
                                     {% if art_piece.is_sold %}
                                     <div class="sold-tag">Sold</div>
                                     {% endif %}
@@ -89,9 +89,6 @@
                                             <source src="{{ video.video.url }}" type="video/mp4">
                                         </video>
                                     </div>
-                                    <style>
-                                       
-                                    </style>
                                     {% endfor %}
                                 </div>
                                 <a href="#" class="carousel-control-prev round" data-bs-target="#carouselExampleControls{{ forloop.counter }}" data-bs-slide="prev" style="font-size: 3rem;">&#8249;</a>

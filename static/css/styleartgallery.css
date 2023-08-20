@@ -8,11 +8,10 @@ h1 {
     margin: 10px
   }
 
-  .container {
-    margin-left: 100px;
+  .row {
+    margin-bottom: 99000px;
 }
 
-  
 .form-control {
     padding: 6px;
     font-size: 17px;
@@ -45,9 +44,9 @@ body {
 
 
 .art-piece-image {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+    height: 300px;
+    width: 200px;
+    object-fit: contain;
   }
 
 
@@ -86,25 +85,25 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 400px;
-    width: 300px;
+    height: fit-content;
+    width: fit-content;
     border: 5px solid black;
-    margin: 10px; /* Add margin to separate the art pieces */
+    margin: 100px; /* Add margin to separate the art pieces */
 }
 
-.art-piece-image {
-    height: 100%;
-    width: 100%;
+/* .art-piece-image {
+    height: 300px;
+    width: 200px;
     object-fit: cover;
-}
+} */
 
-.carousel-item {
+/* .carousel-item {
     height: 300px; 
     width: 200px;
-}
-.art-piece-container .card {
+} */
+/* .art-piece-container .card {
     margin-bottom: 0;
-}
+} */
 .carousel-inner {
     margin-bottom: 0;
 }

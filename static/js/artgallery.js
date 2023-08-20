@@ -1,8 +1,8 @@
 let lastScrollTop = 0; // Declare the lastScrollTop variable
-let navbar = document.querySelector('.navbar'); // Assuming you have a class 'navbar' in your HTML
+let navbar = document.querySelector('.navbar'); 
 
 window.addEventListener('scroll', function() {
-  console.log("Scroll event triggered"); // This line will print a message to the browser console every time the scroll event is triggered.
+  console.log("Scroll event triggered"); // print a message to the browser console every time the scroll event is triggered.
   
   let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
   
