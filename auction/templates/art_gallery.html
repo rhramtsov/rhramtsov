@@ -24,9 +24,6 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'auctions' %}">Auction</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'art_gallery' %}">Art Gallery</a>
                 </li>
                 {% if user.is_authenticated %}
@@ -91,8 +88,14 @@
                                     </div>
                                     {% endfor %}
                                 </div>
+                                {% if art_piece.is_on_auction is True  %}
+                                    <div class="bid-tag">Bid</div>
+                                {% endif %}
                                 <a href="#" class="carousel-control-prev round" data-bs-target="#carouselExampleControls{{ forloop.counter }}" data-bs-slide="prev" style="font-size: 3rem;">&#8249;</a>
-                                <a href="#" class="carousel-control-next round" data-bs-target="#carouselExampleControls{{ forloop.counter }}" data-bs-slide="next" style="font-size: 3rem;">&#8250;</a>
+                                
+                                <a href="#" class="carousel-control-next round" data-bs-target="#carouselExampleControls{{ forloop.counter }}" data-bs-slide="next" style="font-size: 3rem;">&#8250;</style></style></a>
+                                
+                              
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">{{ art_piece.name }}</h5>
@@ -101,9 +104,16 @@
                                 <p class="card-text">{{ art_piece.year }}</p>
                                 {% if not art_piece.is_sold %}
                                 <div class="mb-3 d-flex justify-content-between">
-                                    <button class="buy-now-btn" data-art-id="{{ art_piece.id }}">
-                                        Buy Now for ₪{{ art_piece.buy_now_price }}</button>
-                                    <button class="btn btn-secondary">Bid on Auction</button>
+                                    <a href="{% url 'buy_now' art_piece.id %}">
+                                        <button class="buy-now-btnnn" data-art-id="{{ art_piece.id }}">
+                                            Buy Now for ₪{{ art_piece.buy_now_price }}</button>
+                                    </a>
+                                    {% if art_piece.is_on_auction is True %}
+                                    <a href="{% url 'bidd' art_piece.id %}">
+                                        <button class="btn btn-secondary">Bid on Auction</button>
+                                    </a>
+                                {% endif %}
+                                   
                                 </div>
                                 </div>
                                 {% endif %}
@@ -141,8 +151,6 @@
             });
         });
     </script>
-            
-
   {% load static %}
 
 

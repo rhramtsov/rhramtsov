@@ -10,6 +10,8 @@ from django.db.models import Q
 from django.core.mail import send_mail
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, get_object_or_404, redirect
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 
 def index(request):
@@ -30,27 +32,35 @@ def create_art_piece(request):
         form = ArtPieceForm()
     return render(request, 'create_art_piece.html', {'form': form})
 
-def buy_now(request, art_piece_id):
-    if request.user.is_authenticated:
-        art_piece = get_object_or_404(ArtPiece, pk=art_piece_id)
-        if art_piece.is_sold or art_piece.is_in_active_auction():
-            messages.error(request, "This art piece is already sold or in an active auction.")
-            return redirect('art_piece_detail', art_piece_id=art_piece.id)
-        if not art_piece.buy_now_price:
-            messages.error(request, "This art piece does not have a buy-now price.")
-            return redirect('art_piece_detail', art_piece_id=art_piece.id)
-        if request.user.is_collector:
-            art_piece.is_sold = True
-            art_piece.collector = request.user
-            art_piece.save()
-            messages.success(request, f"Congratulations! You are now the owner of {art_piece.name}. See My Collection page.")
-            return redirect('art_piece_detail', art_piece_id=art_piece.id)
+def buy_now(request, art_piece_id):       
+    try:
+        if request.user.is_authenticated:
+           art_piece = get_object_or_404(ArtPiece, pk=art_piece_id)
+           if art_piece.is_sold or art_piece.is_in_active_auction():
+             messages.error(request, "This art piece is already sold or in an active auction.")
+             return redirect('my_collection')
+            #  return redirect('art_piece_detail', art_piece_id=art_piece.id)
+           if not art_piece.buy_now_price:
+             messages.error(request, "This art piece does not have a buy-now price.")
+             return redirect('my_collection')
+             ##return redirect('art_piece_detail', art_piece_id=art_piece.id)
+           if request.user.is_collector:
+             art_piece.is_sold = True
+             art_piece.collector = request.user
+             art_piece.save()
+             messages.success(request, f"Congratulations! You are now the owner of {art_piece.name}. See My Collection .")
+             return redirect('my_collection')
+            #  return redirect('art_piece_detail', art_piece_id=art_piece.id)
+           else:
+             messages.error(request, "Only collectors can buy art pieces.")
+             return redirect('my_collection')
+            #  return redirect('art_piece_detail', art_piece_id=art_piece.id)
         else:
-            messages.error(request, "Only collectors can buy art pieces.")
-            return redirect('art_piece_detail', art_piece_id=art_piece.id)
-    else:
-        messages.error(request, "Please log in to buy this art piece.")
+          messages.error(request, "Please log in to buy this art piece.")
+          return redirect('login')
+    except Exception as a:    
         return redirect('login')
+  
 
 
 def buy_now_art_pieces(request):
@@ -71,7 +81,29 @@ def auction_art_pieces(request):
         art_pieces_data.append(art_piece_data)
     return render(request, 'auctions.html', {'art_pieces': art_pieces_data})
 
-def update_art_piece(request, art_piece_id):
+def bidd(request, art_piece_id):
+    context={}
+    art_piece = ArtPiece.objects.get(id=art_piece_id) 
+    context['art_piece']=art_piece
+    if request.user.is_authenticated:
+      if request.method == 'POST':
+         biddingPrice = request.POST['biddingPrice']
+         if int(biddingPrice) < art_piece.minimum_price:
+           print('a')
+           context['message'] = 'The bid is too low. Please try again.'
+         else:
+           print('aa')
+           art_piece.is_on_auction = False
+           art_piece.is_sold = True 
+           art_piece.collector = request.user
+           art_piece.save()
+           context['message'] = 'Congratulations!'
+      print('b')     
+      return render(request, 'bid.html', context)     
+    print('c') 
+    return render(request, 'bid.html', context)
+
+def bid(request, art_piece_id):
     art_piece = get_object_or_404(ArtPiece, pk=art_piece_id)
     if request.method == "POST":
         form = ArtPieceForm(request.POST, instance=art_piece)
@@ -163,9 +195,12 @@ def contact(request):
             message=f'Name: {firstname} {lastname}\nSubject: {subject}',
             from_email='theonlineartgalleryhl@gmail.com',
             recipient_list=['theonlineartgalleryhl@gmail.com'],
+            fail_silently= False
         )
 
         messages.success(request, "Thank you for contacting us!")
         return redirect('contact_us')
     else:
         return redirect('contact_us')
+    
+

@@ -1,0 +1,22 @@
+
+{% extends 'base.html' %}
+<!-- Content block -->
+{% load static %}
+{% block content %}
+    <div class="container py-5">
+        <h1>Bid Art Gallery</h1>
+    </div>
+
+    <head>
+    </html>
+    <body id= "backgroundPic" p style="background-image: url('/media/backpichome.jpg');"> 
+        <form method="post" action="{% url 'bidd' art_piece.id %}">
+            {% csrf_token %}
+            <span style="margin-left: 100px;>Put Your start bidding price</span>
+            <input type="number" name="biddingPrice"/>
+            <input type="submit" value="Bid"/>
+        </form> 
+        {{message}}
+    </body>
+{% endblock content %}
+

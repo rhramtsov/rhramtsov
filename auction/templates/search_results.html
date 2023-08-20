@@ -1,0 +1,87 @@
+
+{% extends 'base.html' %}
+<!-- Content block -->
+{% load static %}
+{% block content %}
+    <div class="container py-5">
+        <h1>Search results</h1>
+    </div>
+
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% load static %} 
+    <link rel="stylesheet" href="{% static 'css/styleartgallery.css' %}">
+    <script defer src="{% static 'js/buynow.js' %}"></script>
+    <script defer src="{% static 'js/navbar.js' %}"></script>
+    </html>
+    <body id= "backgroundPic" p style="background-image: url('/media/backpichome.jpg');"> 
+        {% if  not results %}
+        <div>No Result</div>
+        {% endif %}
+        <div class="container" style="margin-left: 100px;">
+            <h1 class="text-center my-4">The Art Gallery</h1>
+               <div class="row">
+                    {% for art_piece in results %}
+                    <div class="col-md-6 mb-4 d-flex justify-content-center">
+                        <aside class="art-piece-container">
+                                <div class="card" style="height: 100%; width: 100%;">
+                                    <div id="carouselExampleControls{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner" style="object-fit: contain;">
+                                            {% if art_piece.is_sold %}
+                                            <div class="sold-tag">Sold</div>
+                                            {% endif %}
+                                            {% for image in art_piece.artpiece_images.all %}
+                                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                                <img src="{{ image.images.url }}" class="d-block w-100 art-piece-image" alt="{{ art_piece.name }}">
+                                            </div>
+                                            {% endfor %}
+                                            {% for video in art_piece.videos.all %}
+                                            <div class="carousel-item {% if forloop.first and not art_piece.artpiece_images.all %}active{% endif %}">
+                                                <video class="d-block w-100 art-piece-image" controls>
+                                                    <source src="{{ video.video.url }}" type="video/mp4">
+                                                </video>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                        {% if art_piece.is_on_auction is True  %}
+                                            <div class="bid-tag">Bid</div>
+                                        {% endif %}
+                                        <a href="#" class="carousel-control-prev round" data-bs-target="#carouselExampleControls{{ forloop.counter }}" data-bs-slide="prev" style="font-size: 3rem;">&#8249;</a>
+                                        
+                                        <a href="#" class="carousel-control-next round" data-bs-target="#carouselExampleControls{{ forloop.counter }}" data-bs-slide="next" style="font-size: 3rem;">&#8250;</style></style></a>
+                                        
+                                      
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ art_piece.name }}</h5>
+                                        <p class="card-text">{{ art_piece.artist }}</p>
+                                        <p class="card-text">{{ art_piece.size }}</p>
+                                        <p class="card-text">{{ art_piece.year }}</p>
+                                        {% if not art_piece.is_sold %}
+                                        <div class="mb-3 d-flex justify-content-between">
+                                            <a href="{% url 'buy_now' art_piece.id %}">
+                                                <button class="buy-now-btnnn" data-art-id="{{ art_piece.id }}">
+                                                    Buy Now for ₪{{ art_piece.buy_now_price }}</button>
+                                            </a>
+                                            {% if art_piece.is_on_auction is True %}
+                                            <a href="{% url 'bidd' art_piece.id %}">
+                                                <button class="btn btn-secondary">Bid on Auction</button>
+                                            </a>
+                                        {% endif %}
+                                           
+                                        </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </aside>
+                        </div>
+                    {% endfor %}
+        </div>
+    </div>
+    </body>
+{% endblock content %}
+

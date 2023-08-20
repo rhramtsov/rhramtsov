@@ -64,9 +64,14 @@ class ArtPiece(models.Model):
         help_text='True if the art piece has been sold.',
         default=False
     )
+    is_on_auction = models.BooleanField(
+        verbose_name='Is On Auction',
+        help_text='True if the art piece has been on auction.',
+        default=False
+    )
     price = models.DecimalField(
-        verbose_name='Price',
-        help_text='The price of the art piece.',
+        verbose_name='Purchased Price',
+        help_text='The purchased price of the art piece.',
         max_digits=10,
         decimal_places=2,
         null=True,

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'auction',
+    'rest_framework'
 ]
 
 
@@ -153,5 +154,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'theonlineartgalleryhl@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get ('EMAIL KEY')
+EMAIL_HOST_PASSWORD = 'dflhabzpaqlpfsjq'
 DEFAULT_FROM_EMAIL = 'theonlineartgalleryhl@gmail.com'
+SERVER_EMAIL = 'theonlineartgalleryhl@gmail.com'
