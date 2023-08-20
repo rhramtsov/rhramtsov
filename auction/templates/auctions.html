@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
         <link rel="stylesheet" href="{% static 'css/stylauctions.css' %}">
         <script defer src="{% static 'js/navbar.js' %}"></script>
-
+        
 
     </head>    
         <!-- Navbar -->
@@ -62,7 +62,9 @@
                 {% endfor %}
             </div>
         {% endif %}
-
+        <body id= "backgroundPic" p style="background-image: url('/media/backpichome.jpg');">
+            
+        </body>
         <!-- Art piece images scroller -->
         <div class="art-piece-images">
             {% for image_url in art_piece.images %}
