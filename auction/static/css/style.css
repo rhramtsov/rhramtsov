@@ -2,14 +2,6 @@
   box-sizing: border-box;
 }
 
-.container {
-  text-align: center;
-  padding: 30px;
-  font-size: 35px;
-  background-color: #666;
-  color: white;
-}
-
 #backgroundPic {
   background-position: center;
   background-size: cover;
