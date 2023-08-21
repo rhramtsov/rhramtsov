@@ -6,19 +6,27 @@
         <script defer src="{% static 'js/register.js' %}"></script>
         <div class="container py-5">
             <h1>The online Art Gallery</h1>
+            <center><h1> Welcome to an extraordinary Art Collection</h1></center>
         </div>
         </html>
-        <body id= "backgroundPic" p style="background-image: url('/media/backpichome.jpg');">  
+        <body id= "backgroundPic" p style="background-image: url('/media/backpichome.jpg');"> 
+            <div class="content">
+                <section>
+                    <h2>About</h2>
+                    <p>
+                        <strong>Description:</strong> The Online Art Gallery serves as a dynamic virtual realm, passionately committed to curating and presenting a varied spectrum of contemporary artworks crafted by both budding and renowned artists spanning the globe.
+                        <br>
+                        <strong>Mission:</strong> We aspire to provide a platform that facilitates artistic expression, fosters creativity, and brings captivating artworks to the forefront of the digital art scene.
+                        <br>
+                        <strong>Collectors' Experience:</strong> Our online collectors are granted a unique opportunity to acquire these exceptional pieces directly through the ArtistryOnline Gallery. They can engage in the artistic journey through options such as placing bids or opting for instant purchase, subsequently enriching their personal collections with exquisite and timeless art.
+                        <br>
+                        <strong>Global Reach:</strong> The virtual platform transcends geographical boundaries, effectively uniting art enthusiasts and creators from all corners of the world.
+                        <br>
+                        <strong>Limited Editions:</strong> Certain artworks are offered as limited editions, adding an element of exclusivity and investment potential for discerning collectors.
+                    </p>
+                </section>
+            </div>
         </body>
-        <!-- <p></p>
-        <form method="post">
-          {% csrf_token %}
-          {{ form.as_p }}
-          
-          <input type="hidden" name="next" value="{{ request.GET.next }}" />
-          <button type="submit" class="btn btn-primary">Login</button>
-          <a href="{% url 'register' %}" class="btn btn-primary">Register now</a>
-        </form>
-      {% endblock %} -->
+      {% endblock %} 
 
     

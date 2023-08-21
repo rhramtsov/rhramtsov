@@ -121,7 +121,8 @@ def your_view(request):
     return render(request, 'your_template.html', context)
 
 def art_gallery(request):
-    art_pieces = ArtPiece.objects.all()
+    art_pieces = ArtPiece.objects.all().order_by('-is_on_auction')
+    context = {'art_pieces': art_pieces}
     art_pieces = ArtPiece.objects.all().order_by('is_sold')
     return render(request, 'art_gallery.html', {'art_pieces': art_pieces})
 
